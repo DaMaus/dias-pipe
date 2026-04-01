@@ -9,6 +9,7 @@ function App() {
   const [count, setCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Determinar la versión por parámetro (ej. ?v=2) o ruta (ej. /2)
@@ -27,7 +28,10 @@ function App() {
           const data = snapshot.val();
           if (data !== null) {
             setCount(data);
+          } else {
+            setCount(0);
           }
+          setIsLoading(false);
         });
       });
     });
@@ -73,7 +77,7 @@ function App() {
 
   // Rellenar con ceros (ej. 5 -> '005')
   const formattedCount = count.toString().padStart(3, '0');
-  const digits = formattedCount.split('');
+  const digits = isLoading ? ['', '', ''] : formattedCount.split('');
 
   // COORDENADAS: [left, top, width, height]
   // Iniciaremos con valores arbitrarios, luego se calibrarán viendo la captura de pantalla
